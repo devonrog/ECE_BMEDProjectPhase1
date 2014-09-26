@@ -27,15 +27,27 @@ m=m0;
 n=n0;
 h=h0;
 %define currents
-INa = m^3*gNa*h*(Vm-ENa);%Na current
-IK = n^4*gK*(Vm-Ek); %K current
-IL = gL*(Vm-EL); %Leakage current.  Includes Cl
-Iinj = zeros(1,z); %injected current.  start with all values at 0 Amps
-Iion = Iinj-IK-INa-IL;
+%INa = m^3*gNa*h*(Vm-ENa);%Na current
+%IK = n^4*gK*(Vm-Ek); %K current
+%IL = gL*(Vm-EL); %Leakage current.  Includes Cl
+%Iinj = zeros(1,z); %injected current.  start with all values at 0 Amps
+%Iion = Iinj-IK-INa-IL;
 %Euler's method:
-Vm = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros filling the rest
+Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros filling the rest.
+                            %will plot this vector against time at the end.
     for q = 1:z
-        Vm(q+1) = Vm(q) + h*Iion(q)/Cm;  %Eulers for Vm.  dVm/dt = Iion/Cm
+        m = m + d*(am*(1-m)-Bm*m);%Eulers for m.  d is step size
+        n = n+ d*(an*(1-n)-Bn*n);%Eulers for n.  d is step size
+        h = h+ d*(ah*(1-h)-Bh*h);%Eulers for h.  d is step size
+        %update currents
+        INa = m^3*gNa*h*(Vm-ENa);%Na current
+        IK = n^4*gK*(Vm-Ek); %K current
+        IL = gL*(Vm-EL); %Leakage current.  Includes Cl
+        Iinj = zeros(1,z); %injected current.  start with all values at 0 Amps
+        Iion = Iinj-IK-INa-IL;
+        %update Vm
+        Vm = Vm + h*Iion/Cm;  %Eulers for Vm.  dVm/dt = Iion/Cm
+        Vmvec(q) = Vm;
     end
     
 
