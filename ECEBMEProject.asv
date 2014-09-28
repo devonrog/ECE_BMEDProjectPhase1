@@ -1,5 +1,5 @@
 %initialize time
-d = 1; %step size
+d = .1; %step size
 t = [0:d:100];
 z = length(t);
 %constants:
