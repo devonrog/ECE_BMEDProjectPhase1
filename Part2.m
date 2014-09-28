@@ -1,5 +1,5 @@
 %initialize time
-d = .001; %step size
+d = .0001; %step size
 t = [0:d:100];%initiliaze time from 0 to 100 ms
 z = length(t);
 %constants:
@@ -28,7 +28,7 @@ n=n0;
 h=h0;
 Iinj = zeros(1,z);  %initialize Iinj vector
 pulseLength = .5/d;  %determine number of descrete time intervals pulse lasts
-Iinj(1:pulseLength) = 50;  %set the first .5 ms to 5 uA/cm^2
+Iinj(1:pulseLength) = 50;  %set the first .5 ms to 5 uA/cm^2  %%right now this is wrong
 Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros filling the rest.
                             %will plot this vector against time at the end.
 gK = zeros(1,z);
