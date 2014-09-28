@@ -49,22 +49,27 @@ gNa = zeros(1,z);
         Iion = Iinj-IK-INa-IL;
         %update Vm
         Vm = Vm + d*Iion/Cm;  %Eulers for Vm.  dVm/dt = Iion/Cm
-        Vmvec(q) = Vm;
-        gNa(q) = (m^3)*gbarNa*h;
-        gK(q)= (n^4)*gbarK;
+        Vmvec(q) = Vm;  %record Vm in a vector to be used for plotting later on
+        gNa(q) = (m^3)*gbarNa*h; %record gNa in a vector to be used for plotting later on
+        gK(q)= (n^4)*gbarK;   %record gK in a vector to be used for plotting later on
     end
-   Vmvec = Vmvec + Vrest;
+   Vmvec = Vmvec + Vrest; %move the action potential down the y axis to
+%center on resting potential
+%plot membrane potential
 plot(t, Vmvec)
 axis([0,100,-100,40]);
 xlabel('Time (in milisec)')
 ylabel('Membrane voltage Vm (in mV)')
 title('Membrane Potential')
-
+title('Membrane Potential')
+legend('Voltage')
+%plot conductances
 figure
 plot(t, gNa,t,gK)
-axis([0,100,-100,40]);
+axis([0,100,0,40]);
 xlabel('Time (in milisec)')
 ylabel('Conductance (in mS/cm^2)')
 title('gK and gNa')
-
+title('gK and gNa')
+legend('gNa','gK')
 
