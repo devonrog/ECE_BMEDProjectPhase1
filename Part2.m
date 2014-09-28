@@ -26,9 +26,13 @@ h0 = ah/(ah + Bh);
 m=m0;
 n=n0;
 h=h0;
-
+Iinj = zeros(1,z);  %initialize Iinj vector
+pulseLength = .5/d;  %determine number of descrete time intervals pulse lasts
+Iinj(1:pulseLength) = 5;  %set the first .5 ms to 5 uA/cm^2
 Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros filling the rest.
                             %will plot this vector against time at the end.
+gK = zeros(1,z);
+gNa = zeros(1,z);
     for q = 1:z
         am = 0.1*((25-Vm)/(exp((25-Vm)/10) - 1));
         Bm = 4*exp(-Vm/18); 
@@ -43,14 +47,23 @@ Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros 
         INa = (m^3)*gbarNa*h*(Vm-ENa);%Na current
         IK = (n^4)*gbarK*(Vm-Ek); %K current
         IL = gbarL*(Vm-EL); %Leakage current.  Includes Cl
-        Iinj = 0; %injected current.  start with all values at 0 Amps
-        Iion = Iinj-IK-INa-IL;
+        Iion = Iinj(q)-IK-INa-IL;
         %update Vm
         Vm = Vm + d*Iion/Cm;  %Eulers for Vm.  dVm/dt = Iion/Cm
         Vmvec(q) = Vm;
+        gNa(q) = (m^3)*gbarNa*h;
+        gK(q)= (n^4)*gbarK;
     end
-   
+Vmvec = Vmvec + Vrest;
+
 plot(t, Vmvec)
 axis([0,100,-100,40]);
 xlabel('time (in milisec)')
 ylabel('Membrane voltage Vm (in mV)')
+
+figure
+plot(t, gNa,t,gK)
+axis([0,100,-100,40]);
+xlabel('Time (in milisec)')
+ylabel('Conductance (in mS/cm^2)')
+title('gK and gNa')
