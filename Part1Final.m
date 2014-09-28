@@ -1,5 +1,5 @@
 %initialize time
-d = .1; %step size
+d = .001; %step size
 t = [0:d:100];
 z = length(t);
 %constants:
@@ -26,13 +26,7 @@ h0 = ah/(ah + Bh);
 m=m0;
 n=n0;
 h=h0;
-%define currents
-%INa = m^3*gNa*h*(Vm-ENa);%Na current
-%IK = n^4*gK*(Vm-Ek); %K current
-%IL = gL*(Vm-EL); %Leakage current.  Includes Cl
-%Iinj = zeros(1,z); %injected current.  start with all values at 0 Amps
-%Iion = Iinj-IK-INa-IL;
-%Euler's method:
+
 Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros filling the rest.
                             %will plot this vector against time at the end.
     for q = 1:z
@@ -55,7 +49,8 @@ Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros 
         Vm = Vm + d*Iion/Cm;  %Eulers for Vm.  dVm/dt = Iion/Cm
         Vmvec(q) = Vm;
     end
-    
+   
 plot(t, Vmvec)
+axis([0,100,-100,40]);
 xlabel('time (in milisec)')
 ylabel('Membrane voltage Vm (in mV)')
