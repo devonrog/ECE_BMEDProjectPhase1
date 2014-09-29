@@ -31,7 +31,7 @@ pulseLength = .5/d;  %determine number of descrete time intervals pulse lasts
 Iinj(1:pulseLength) = 50;  %set the first .5 ms to 5 uA/cm^2
 Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros filling the rest.
                             %will plot this vector against time at the end.
-gK = zeros(1,z);
+gK = zeros(1,z);  %initialize gK, gNa into a vector to record their values.
 gNa = zeros(1,z);
     for q = 1:z
         am = 0.1*((25-Vm)/(exp((25-Vm)/10) - 1));  %update alpha and Beta values based on new Vm
