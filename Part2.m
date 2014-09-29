@@ -28,7 +28,7 @@ n=n0;
 h=h0;
 Iinj = zeros(1,z);  %initialize Iinj vector
 pulseLength = .5/d;  %determine number of descrete time intervals pulse lasts
-Iinj(1:pulseLength) = 50;  %set the first .5 ms to 5 uA/cm^2  %%right now this is wrong
+Iinj(1:pulseLength) = 50;  %set the first .5 ms to 5 uA/cm^2
 Vmvec = [Vm zeros(1,z-1)]; %concatonate initial Vm value with a vector of zeros filling the rest.
                             %will plot this vector against time at the end.
 gK = zeros(1,z);
